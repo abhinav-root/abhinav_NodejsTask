@@ -1,8 +1,13 @@
+import { validationResult } from 'express-validator';
 import { sequelize } from '../../db/config.js';
 import { Hospital } from '../models/hospital.model.js';
 import { Patient } from '../models/patient.model.js';
 import { Psychiatrist } from '../models/psychiatrist.model.js';
-import { apiResponse, InternalServerError } from '../utils/common.js';
+import {
+    apiResponse,
+    InternalServerError,
+    isValidData,
+} from '../utils/common.js';
 
 // Get count of patients registered for each psychiatrist
 export async function getPatientsCountForEachPsychiatrist(req, res) {
@@ -18,7 +23,11 @@ export async function getPatientsCountForEachPsychiatrist(req, res) {
 }
 
 // Get all patients of single psychiatrist
-export async function getAllPatientsPsychiatrist(req, res) {
+export async function getAllPatientsForPsychiatrist(req, res) {
+    const errors = validationResult(req);
+    if (!isValidData(errors)) {
+        return apiResponse(res, 400, false, 'Invalid data', null, errors);
+    }
     const pyschId = req.params.psychiatristId;
     try {
         const result = await Psychiatrist.findByPk(pyschId, {
@@ -95,6 +104,10 @@ export async function registerPsychiatrist(req, res) {
 
 // Delete Psychiatrist by Id
 export async function deletePsychiatristByid(req, res) {
+    const errors = validationResult(req);
+    if (!isValidData(errors)) {
+        return apiResponse(res, 400, false, 'Invalid data', null, errors);
+    }
     const { psychiatristId } = req.params;
     try {
         const isDeleted = Psychiatrist.destroy({

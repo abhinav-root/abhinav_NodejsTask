@@ -1,10 +1,18 @@
 import bcrypt from 'bcrypt';
 import { Psychiatrist } from '../models/psychiatrist.model.js';
-import { apiResponse, InternalServerError } from '../utils/common.js';
+import {
+    apiResponse,
+    InternalServerError,
+    isValidData,
+} from '../utils/common.js';
 import { Patient } from '../models/patient.model.js';
 import { validationResult } from 'express-validator';
 
 export async function getPatientById(req, res) {
+    const errors = validationResult(req);
+    if (!isValidData(errors)) {
+        return apiResponse(res, 400, false, 'Invalid data', null, errors);
+    }
     const { id } = req.params;
     try {
         const patient = await getPatiendById(id);
@@ -90,6 +98,10 @@ export async function registerPatient(req, res) {
 
 // Delete patient by Id
 export async function deletePatiendById(req, res) {
+    const errors = validationResult(req);
+    if (!isValidData(errors)) {
+        return apiResponse(res, 400, false, 'Invalid data', null, errors);
+    }
     const { id } = req.params;
     try {
         const patient = await Patient.destroy({ where: { id: id } });
