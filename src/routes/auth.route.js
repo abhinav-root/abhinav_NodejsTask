@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/', body('email').isEmail(), async (req, res) => {
     const { email } = req.body;
-    const token = sign(email, JWT_SECRET, { expiresIn: '1d' });
+    const token = sign(email, JWT_SECRET);
     return apiResponse(
         res,
         201,
