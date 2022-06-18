@@ -3,6 +3,10 @@ import { connect } from '../db/config.js';
 import router from './routes/index.js';
 import { sequelize } from '../db/config.js';
 import { seedDB } from './seeder/seed.js';
+import {
+    createUploadDirectory,
+    uploadDirectoryExists,
+} from './utils/helpers.js';
 
 const main = async () => {
     await connect();
@@ -10,6 +14,10 @@ const main = async () => {
     if (process.env.NODE_ENV === 'development') {
         await sequelize.sync({ force: true });
         console.log('All models were synchronized successfully.');
+    }
+
+    if (!uploadDirectoryExists()) {
+        createUploadDirectory();
     }
 
     const app = express();
@@ -24,10 +32,10 @@ const main = async () => {
 
     app.use(apiPrefix, router);
 
-    app.get(apiPrefix + '/seed', async (req, res) => {
+    app.post(apiPrefix + '/seed', async (req, res) => {
         await seedDB();
         return res.send({
-            msg: 'DB seeded with dummy patients and psychiatrists',
+            msg: 'DB seeded with hospitals, dummy patients and psychiatrists',
         });
     });
 

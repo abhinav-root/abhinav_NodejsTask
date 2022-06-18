@@ -42,8 +42,12 @@ async function createPatients(LIMIT = 100) {
 }
 
 async function insertHospitals() {
-    for (const hospital of hospitals) {
-        await Hospital.create({ name: hospital });
+    try {
+        for (const hospital of hospitals) {
+            await Hospital.create({ name: hospital });
+        }
+    } catch (e) {
+        console.log(e);
     }
 }
 
