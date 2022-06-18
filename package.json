@@ -7,7 +7,8 @@
     "scripts": {
         "dev": "nodemon src/app.js",
         "lint": "eslint src",
-        "lint:fix": "eslint"
+        "lint:fix": "eslint",
+        "start": "node src/app.js"
     },
     "repository": {
         "type": "git",
