@@ -8,7 +8,8 @@
         "dev": "nodemon src/app.js",
         "lint": "eslint src",
         "lint:fix": "eslint",
-        "start": "node src/app.js"
+        "start": "node src/app.js",
+        "build": "echo build successfull"
     },
     "repository": {
         "type": "git",
