@@ -2,7 +2,7 @@ import express from 'express';
 import expressValidator from 'express-validator';
 import {
     deletePsychiatristByid,
-    getAllPatientsPsychiatrist,
+    getAllPatientsForPsychiatrist,
     getPatientsCountForEachPsychiatrist,
     registerPsychiatrist,
 } from '../controllers/psychiatrist.controller.js';
@@ -64,12 +64,13 @@ router.post(
     registerPsychiatrist
 );
 
-router.get('/:psychiatristId/patients', getAllPatientsPsychiatrist);
+router.get('/:psychiatristId/patients', getAllPatientsForPsychiatrist);
 
 router.delete(
     '/:psychiatristId',
     param('psychiatristId')
         .notEmpty()
+        .withMessage('id cannot be empty')
         .isNumeric()
         .withMessage('psychiatristId must be a number'),
     deletePsychiatristByid
