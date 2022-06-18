@@ -28,6 +28,10 @@ const main = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(express.urlencoded({ extended: true }));
 
+    app.get('/', (req, res) => {
+        res.send('Express app running');
+    });
+
     const apiPrefix = '/api/v1';
 
     app.use(apiPrefix, router);
