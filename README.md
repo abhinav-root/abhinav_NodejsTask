@@ -46,6 +46,10 @@ Start the server
 ## API
 This Express app  is deployed at: **52.91.196.16**
 
+### Postman collection Link: 
+[Link](https://www.getpostman.com/collections/784af94ea0792f0b277d)	(*import via JSON link*)
+
+
 baseUrl: **52.91.196.16/api/v1**
 
 ### Patients
